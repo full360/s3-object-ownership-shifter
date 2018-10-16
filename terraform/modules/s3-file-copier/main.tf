@@ -75,18 +75,18 @@ data "aws_iam_policy_document" "lambda_service" {
 # Lambda Role
 #--------------------------------------------------------------
 resource "aws_iam_role" "lambda_role" {
-  name               = "${var.f360_env_s3_files_copier}-${var.lambda_role_name}"
+  name               = "${var.f360_env_s3_file_copier}-${var.lambda_role_name}"
   assume_role_policy = "${data.aws_iam_policy_document.lambda_service.json}"
 }
 
 resource "aws_iam_policy_attachment" "cloudwatch_access" {
-  name       = "${var.f360_env_dbr}-cloudwatch-full-access"
+  name       = "${var.f360_env_s3_file_copier}-cloudwatch-full-access"
   roles      = ["${aws_iam_role.lambda_role.name}"]
   policy_arn = "${aws_iam_policy.cloudwatch_full_access.arn}"
 }
 
 resource "aws_iam_policy_attachment" "s3_access" {
-  name       = "${var.f360_env_dbr}-s3-full-access"
+  name       = "${var.f360_env_s3_file_copier}-s3-full-access"
   roles      = ["${aws_iam_role.lambda_role.name}"]
   policy_arn = "${aws_iam_policy.s3_full_access.arn}"
 }
