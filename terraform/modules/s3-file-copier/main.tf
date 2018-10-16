@@ -96,7 +96,7 @@ resource "aws_iam_policy_attachment" "s3_access" {
 #--------------------------------------------------------------
 data "null_data_source" "lambda_input_file" {
   inputs {
-    filename = "${replace(substr("${path.module}/build/s3-file-copier/main.zip", length(path.cwd) + 1, -1), "/terraform/modules/s3-file-copier/" , "/")}"
+    filename = "${replace(substr("${path.module}/build/s3copier/main.zip", length(path.cwd) + 1, -1), "/terraform/modules/s3-file-copier/" , "/")}"
   }
 }
 
