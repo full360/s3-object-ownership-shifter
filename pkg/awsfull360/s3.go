@@ -1,8 +1,6 @@
 package awsfull360
 
 import (
-	"fmt"
-
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
@@ -27,9 +25,7 @@ func (svc *S3) PutObjectACL(bucket string, key string, fullControlUser string) (
 		Key:              &key,
 		GrantFullControl: &fullControlUser}
 
-	fmt.Println("the input")
-	fmt.Println(input)
-	return svc.client.PutObjectAcl()
+	return svc.client.PutObjectAcl(&input)
 }
 
 func (svc *S3) CopyObjectToBucket(targetBucket string, srcBucket string, key string) (*s3.CopyObjectOutput, error) {
