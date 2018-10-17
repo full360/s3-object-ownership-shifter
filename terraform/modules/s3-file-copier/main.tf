@@ -25,9 +25,14 @@ provider "template" {
 #--------------------------------------------------------------
 # IAM Policies
 #--------------------------------------------------------------
-data "aws_iam_policy_document" "s3_full_access_policy" {
+data "aws_iam_policy_document" "s3_update_object_policy" {
   statement {
-    actions = ["s3:*"]
+    actions = ["s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetBucketLocation",
+                "s3:ListBucket"]
 
     resources = [
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}",
@@ -38,7 +43,7 @@ data "aws_iam_policy_document" "s3_full_access_policy" {
   }
 }
 
-data "aws_iam_policy_document" "cloudwatch_full_access_policy" {
+data "aws_iam_policy_document" "cloudwatch_logs_access_policy" {
   statement {
     actions = ["cloudwatch:*",
       "logs:CreateLogGroup",
@@ -52,12 +57,12 @@ data "aws_iam_policy_document" "cloudwatch_full_access_policy" {
 
 resource "aws_iam_policy" "cloudwatch_full_access" {
   name   = "${var.f360_env_s3_file_copier}-cloudwatch-full-access"
-  policy = "${data.aws_iam_policy_document.cloudwatch_full_access_policy.json}"
+  policy = "${data.aws_iam_policy_document.cloudwatch_logs_access_policy.json}"
 }
 
 resource "aws_iam_policy" "s3_full_access" {
   name   = "${var.f360_env_s3_file_copier}-s3-full-access"
-  policy = "${data.aws_iam_policy_document.s3_full_access_policy.json}"
+  policy = "${data.aws_iam_policy_document.s3_update_object_policy.json}"
 }
 
 data "aws_iam_policy_document" "lambda_service" {
