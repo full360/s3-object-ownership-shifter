@@ -25,14 +25,33 @@ provider "template" {
 #--------------------------------------------------------------
 # IAM Policies
 #--------------------------------------------------------------
+data "aws_iam_policy_document" "user_module_policy" {
+  statement {
+    actions = ["iam:AttachRolePolicy",
+      "iam:AttachUserPolicy",
+      "iam:CreatePolicy",
+      "iam:CreateRole",
+      "lambda:AddPermission",
+      "lambda:CreateFunction",
+      "lambda:TagResource",
+      "lambda:UpdateFunctionCode",
+      "s3:GetBucketNotification",
+      "s3:PutBucketNotification",
+    ]
+
+    resources = ["*"]
+  }
+}
+
 data "aws_iam_policy_document" "s3_update_object_policy" {
   statement {
     actions = ["s3:GetObject",
-                "s3:GetObjectAcl",
-                "s3:PutObject",
-                "s3:PutObjectAcl",
-                "s3:GetBucketLocation",
-                "s3:ListBucket"]
+      "s3:GetObjectAcl",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+      "s3:GetBucketLocation",
+      "s3:ListBucket",
+    ]
 
     resources = [
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}",
@@ -53,6 +72,12 @@ data "aws_iam_policy_document" "cloudwatch_logs_access_policy" {
 
     resources = ["*"]
   }
+}
+
+resource "aws_iam_user_policy" "user_module_access" {
+  name   = "${var.f360_env_s3_file_copier}-user-module-access"
+  user   = "${var.user_name}"
+  policy = "${data.aws_iam_policy_document.user_module_policy.json}"
 }
 
 resource "aws_iam_policy" "cloudwatch_full_access" {
