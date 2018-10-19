@@ -21,14 +21,9 @@ func requestHandler(S3Event events.S3Event) error {
 	}
 
 	for _, rec := range S3Event.Records {
-		_, err := s3.PutObjectACL(rec.S3.Bucket.Name, rec.S3.Object.Key, grantFullControl)
+		_, err := s3.CopyObjectToBucket(targetBucket, rec.S3.Bucket.Name, rec.S3.Object.Key, grantFullControl)
 		if err != nil {
-			log.Fatal("Error Add ACL: ", err)
-		} else {
-			_, errCP := s3.CopyObjectToBucket(targetBucket, rec.S3.Bucket.Name, rec.S3.Object.Key)
-			if errCP != nil {
-				log.Fatal("Error Copying file ", errCP)
-			}
+			log.Fatal("Error Copying file ", err)
 		}
 	}
 

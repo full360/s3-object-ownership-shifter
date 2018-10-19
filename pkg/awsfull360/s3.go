@@ -28,9 +28,10 @@ func (svc *S3) PutObjectACL(bucket string, key string, fullControlUser string) (
 	return svc.client.PutObjectAcl(&input)
 }
 
-func (svc *S3) CopyObjectToBucket(targetBucket string, srcBucket string, key string) (*s3.CopyObjectOutput, error) {
+func (svc *S3) CopyObjectToBucket(targetBucket string, srcBucket string, key string, acl string) (*s3.CopyObjectOutput, error) {
 	source := srcBucket + "/" + key
 	input := s3.CopyObjectInput{
+		ACL:        &acl,
 		Bucket:     &targetBucket,
 		CopySource: &source,
 		Key:        &key}
