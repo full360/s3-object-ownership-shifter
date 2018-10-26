@@ -1,4 +1,5 @@
 variable "region" {}
+variable "env" {}
 variable "aws_s3_source_bucket_name" {}
 variable "aws_s3_target_bucket_name" {}
 variable "ownership_full_control" {}
@@ -31,6 +32,6 @@ variable "common_tags" {
     Terraform   = true
     Author      = "full360"
     Department  = "Development"
-    Environment = "prod"
+    Environment = "Prod"
   }
 }
