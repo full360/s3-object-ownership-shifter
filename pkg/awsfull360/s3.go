@@ -18,23 +18,13 @@ func NewS3Client() (*S3, error) {
 	}, nil
 }
 
-func (svc *S3) PutObjectACL(bucket string, key string, fullControlUser string) (*s3.PutObjectAclOutput, error) {
-
-	input := s3.PutObjectAclInput{
-		Bucket:           &bucket,
-		Key:              &key,
-		GrantFullControl: &fullControlUser}
-
-	return svc.client.PutObjectAcl(&input)
-}
-
-func (svc *S3) CopyObjectToBucket(targetBucket string, srcBucket string, key string, acl string) (*s3.CopyObjectOutput, error) {
+func (svc *S3) CopyObjectToBucket(targetBucket string, srcBucket string, key string, gfc string) (*s3.CopyObjectOutput, error) {
 	source := srcBucket + "/" + key
 	input := s3.CopyObjectInput{
-		ACL:        &acl,
-		Bucket:     &targetBucket,
-		CopySource: &source,
-		Key:        &key}
+		GrantFullControl: &gfc,
+		Bucket:           &targetBucket,
+		CopySource:       &source,
+		Key:              &key}
 
 	return svc.client.CopyObject(&input)
 }

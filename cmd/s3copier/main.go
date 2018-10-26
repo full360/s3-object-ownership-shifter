@@ -21,6 +21,7 @@ func requestHandler(S3Event events.S3Event) error {
 	}
 
 	for _, rec := range S3Event.Records {
+		fmt.Println("Processing file ", rec.S3.Object.Key)
 		_, err := s3.CopyObjectToBucket(targetBucket, rec.S3.Bucket.Name, rec.S3.Object.Key, grantFullControl)
 		if err != nil {
 			log.Fatal("Error Copying file ", err)
@@ -32,6 +33,5 @@ func requestHandler(S3Event events.S3Event) error {
 }
 
 func main() {
-	fmt.Println("Starting Function")
 	lambda.Start(requestHandler)
 }
