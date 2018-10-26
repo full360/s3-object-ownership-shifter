@@ -2,8 +2,11 @@ variable "region" {}
 variable "env" {}
 variable "aws_s3_source_bucket_name" {}
 variable "aws_s3_target_bucket_name" {}
-variable "ownership_full_control" {}
 variable "user_name" {}
+
+variable "ownership_full_control" {
+  default = ""
+}
 
 variable "f360_env_s3_file_copier" {
   default = "s3-file-copier-prod"
@@ -23,6 +26,10 @@ variable "lambda_handler_name" {
 
 variable "lambda_runtime" {
   default = "go1.x"
+}
+
+variable "file_filters" {
+  default = ""
 }
 
 variable "common_tags" {

@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "s3_update_object_policy" {
     actions = ["s3:GetObject",
       "s3:PutObject",
       "s3:GetBucketLocation",
-      "s3:ListBucket"
+      "s3:ListBucket",
       "s3:CopyObject",
     ]
 
@@ -116,6 +116,7 @@ resource "aws_lambda_function" "lambda" {
     variables = {
       TARGET_S3_BUCKET       = "${var.aws_s3_target_bucket_name}"
       OWNERSHIP_FULL_CONTROL = "${var.ownership_full_control}"
+      FILE_FILTER            = "${var.file_filters}"
     }
   }
 

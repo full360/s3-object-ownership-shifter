@@ -77,6 +77,29 @@ aws_s3_target_bucket_name = "bucket-target-test-name"
 ownership_full_control    = "emailaddress=exacmplet@example.com"
 ```
 
+### Filter
+
+In case needed you can add a filter to copy only files with certain name. To enable this feature just add the filter in the variable `file_filters` on your terraform script. Like this
+
+```
+variable "region" {}
+variable "aws_s3_source_bucket_name" {}
+variable "aws_s3_target_bucket_name" {}
+variable "ownership_full_control" {}
+variable "env" {}
+
+region                    = "us-west-2"
+env                       = "dev"
+aws_s3_source_bucket_name = "bucket-source-test-name"
+aws_s3_target_bucket_name = "bucket-target-test-name"
+ownership_full_control    = "emailaddress=exacmplet@example.com"
+file_filters              = "david-sample-filter"
+```
+
+In this way, only files which include `david-sample-filter` in the name will be copied, by default the value es empty
+
+### Terraform Sample script
+
 We recommend to follow the directory structure on `example-region-name`
 
 ```    ├── example-region-name
