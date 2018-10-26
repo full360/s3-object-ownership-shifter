@@ -31,12 +31,14 @@ data "aws_iam_policy_document" "s3_update_object_policy" {
       "s3:PutObject",
       "s3:GetBucketLocation",
       "s3:ListBucket",
-      "s3:CopyObject",
+      "s3:GetObjectAcl"
     ]
 
     resources = [
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}",
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}/*",
+      "arn:aws:s3:::${var.aws_s3_target_bucket_name}",
+      "arn:aws:s3:::${var.aws_s3_target_bucket_name}/*"
     ]
   }
 }
