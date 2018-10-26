@@ -2,7 +2,6 @@ variable "region" {}
 variable "env" {}
 variable "aws_s3_source_bucket_name" {}
 variable "aws_s3_target_bucket_name" {}
-variable "user_name" {}
 
 variable "ownership_full_control" {
   default = ""
