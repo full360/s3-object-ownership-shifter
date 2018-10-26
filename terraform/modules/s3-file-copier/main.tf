@@ -25,25 +25,33 @@ provider "template" {
 #--------------------------------------------------------------
 # IAM Policies
 #--------------------------------------------------------------
-data "aws_iam_policy_document" "s3_update_object_policy" {
+data "aws_iam_policy_document" "s3_update_object_policy_doc" {
   statement {
-    actions = ["s3:GetObject",
-      "s3:PutObject",
-      "s3:GetBucketLocation",
+    actions = ["s3:GetObjectAcl",
+      "s3:GetObject",
       "s3:ListBucket",
-      "s3:GetObjectAcl"
+      "s3:GetBucketLocation",
     ]
 
     resources = [
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}",
       "arn:aws:s3:::${var.aws_s3_source_bucket_name}/*",
+    ]
+  }
+
+  statement {
+    actions = ["s3:PutObject",
+      "s3:PutObjectAcl",
+    ]
+
+    resources = [
       "arn:aws:s3:::${var.aws_s3_target_bucket_name}",
-      "arn:aws:s3:::${var.aws_s3_target_bucket_name}/*"
+      "arn:aws:s3:::${var.aws_s3_target_bucket_name}/*",
     ]
   }
 }
 
-data "aws_iam_policy_document" "cloudwatch_logs_access_policy" {
+data "aws_iam_policy_document" "cloudwatch_logs_access_policy_doc" {
   statement {
     actions = ["cloudwatch:*",
       "logs:CreateLogGroup",
@@ -55,14 +63,14 @@ data "aws_iam_policy_document" "cloudwatch_logs_access_policy" {
   }
 }
 
-resource "aws_iam_policy" "cloudwatch_full_access" {
+resource "aws_iam_policy" "cloudwatch_logs_access_access" {
   name   = "${var.f360_env_s3_file_copier}-cloudwatch-full-access"
-  policy = "${data.aws_iam_policy_document.cloudwatch_logs_access_policy.json}"
+  policy = "${data.aws_iam_policy_document.cloudwatch_logs_access_policy_doc.json}"
 }
 
-resource "aws_iam_policy" "s3_full_access" {
+resource "aws_iam_policy" "s3_logs_access_access" {
   name   = "${var.f360_env_s3_file_copier}-s3-full-access"
-  policy = "${data.aws_iam_policy_document.s3_update_object_policy.json}"
+  policy = "${data.aws_iam_policy_document.s3_update_object_policy_doc.json}"
 }
 
 data "aws_iam_policy_document" "lambda_service" {
@@ -87,13 +95,13 @@ resource "aws_iam_role" "lambda_role" {
 resource "aws_iam_policy_attachment" "cloudwatch_access" {
   name       = "${var.f360_env_s3_file_copier}-cloudwatch-full-access"
   roles      = ["${aws_iam_role.lambda_role.name}"]
-  policy_arn = "${aws_iam_policy.cloudwatch_full_access.arn}"
+  policy_arn = "${aws_iam_policy.cloudwatch_logs_access_access.arn}"
 }
 
 resource "aws_iam_policy_attachment" "s3_access" {
   name       = "${var.f360_env_s3_file_copier}-s3-full-access"
   roles      = ["${aws_iam_role.lambda_role.name}"]
-  policy_arn = "${aws_iam_policy.s3_full_access.arn}"
+  policy_arn = "${aws_iam_policy.s3_logs_access_access.arn}"
 }
 
 #--------------------------------------------------------------
