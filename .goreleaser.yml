@@ -4,6 +4,8 @@ before:
 builds:
 - main:
     ./cmd/s3copier/main.go
+  goos:
+    - linux
   env:
     - CGO_ENABLED=0
 archive:
