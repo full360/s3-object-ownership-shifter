@@ -20,7 +20,12 @@ Make sure your user has the right permissions to apply the infrastructure, attac
         "lambda:AddPermission",
         "lambda:CreateFunction",
         "lambda:TagResource",
-        "lambda:UpdateFunctionCode"
+        "lambda:UpdateFunctionCode",
+        "lambda:TagResource",
+        "lambda:ListVersionsByFunction",
+        "lambda:GetFunction",
+        "lambda:GetPolicy",
+        "lambda:RemovePermission"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -28,7 +33,22 @@ Make sure your user has the right permissions to apply the infrastructure, attac
     {
       "Sid": "Stmt1540566865566",
       "Action": [
-        "s3:PutBucketNotification"
+        "s3:PutBucketNotification",
+        "s3:ListBucket",
+        "s3:GetBucketNotification",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Stmt15405668653432",
+      "Action": [
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -38,7 +58,17 @@ Make sure your user has the right permissions to apply the infrastructure, attac
       "Action": [
         "iam:AttachRolePolicy",
         "iam:CreatePolicy",
-        "iam:CreateRole"
+        "iam:CreatePolicyVersion",
+        "iam:CreateRole",
+        "iam:GetRole",
+        "iam:GetPolicyVersion",
+        "iam:GetPolicy",
+        "iam:ListEntitiesForPolicy",
+        "iam:AttachRolePolicy",
+        "iam:CreatePolicy",
+        "iam:PassRole",
+        "iam:ListPolicyVersions",
+        "iam:ListRolePolicies"
       ],
       "Effect": "Allow",
       "Resource": "*"
