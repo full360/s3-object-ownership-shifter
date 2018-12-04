@@ -1,4 +1,4 @@
-module gitlab.full360.com/experiments/s3-copier
+module github.com/full360/s3-object-ownership-shifter
 
 require (
 	github.com/aws/aws-lambda-go v1.6.0

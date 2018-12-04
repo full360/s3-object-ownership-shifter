@@ -1,4 +1,4 @@
-package main //gitlab.full360.com/experiments/s3-copier
+package main //github.com/full360/s3-object-ownership-shifter
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	awsF360 "gitlab.full360.com/experiments/s3-copier/pkg/awsfull360"
+	awsF360 "github.com/full360/s3-object-ownership-shifter/pkg/awsfull360"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
