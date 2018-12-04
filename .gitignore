@@ -5,3 +5,4 @@ terraform.tfstate.backup
 .cache
 *.log
 dist/
+build/
