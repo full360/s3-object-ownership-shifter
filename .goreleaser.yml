@@ -11,6 +11,7 @@ builds:
 archive:
   replacements:
     linux: Linux
+    amd64: x86_64
   format: zip
   files:
     - none*
