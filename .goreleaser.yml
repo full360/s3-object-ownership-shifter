@@ -12,3 +12,5 @@ archive:
   replacements:
     linux: Linux
   format: zip
+  files:
+    - none*
